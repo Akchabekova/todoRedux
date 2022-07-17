@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import { nanoid } from 'nanoid'
+import { nanoid } from 'nanoid';
+import DeleteItem from "./components/deleteItem";
+
+
 
 
 
@@ -8,10 +11,11 @@ const App = () => {
 const dispatch = useDispatch()
 const [  todo, setTodo ] = useState("")
 const {todos} = useSelector((s)=> s )
-    console.log(todos)
+// console.log(todos)
 
- const handleClick = () =>{
-     console.log(todo)
+
+ const handleClick = () => {
+     // console.log(todo)
      setTodo("")
      dispatch({
          type : "ADD_TODO" ,
@@ -22,10 +26,24 @@ const {todos} = useSelector((s)=> s )
          }
      })
  }
+ const removeFromTodo = (id) => {
+            dispatch({
+            type : "REMOVE_FROM_TODO" ,
+             id
+        })
+    }
+ const handleDone = (id) =>{
+    dispatch({
+        type: "COMPLETE_ITEM",
+        id
+    })
+
+ }
 
  const handleChange = (e) => {
      setTodo(e.target.value)
  }
+
   return (
       <div className="container mt-5">
           <div className="row">
@@ -37,14 +55,13 @@ const {todos} = useSelector((s)=> s )
                  <ul className="list-group">
                      {
                          todos.map((item)=>
-                             <li  key = {item.id} className="list-group-item">{item.text}</li>
+                             <DeleteItem item = {item}  removeFromTodo={removeFromTodo} handleDone = {handleDone}/>
                          )
                      }
                  </ul>
              </div>
           </div>
-
-      </div>
+     </div>
   );
 
 };
