@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import { nanoid } from 'nanoid';
 import DeleteItem from "./components/deleteItem";
+import {addNewTodo, completeItem, deleteTodo} from "./redux/actions";
 
 
 
@@ -15,30 +16,15 @@ const {todos} = useSelector((s)=> s )
 
 
  const handleClick = () => {
-     // console.log(todo)
      setTodo("")
-     dispatch({
-         type : "ADD_TODO" ,
-         payload : {
-             id : nanoid() ,
-             text : todo ,
-             completed : false
-         }
-     })
+     dispatch(addNewTodo(todo))
  }
  const removeFromTodo = (id) => {
-            dispatch({
-            type : "REMOVE_FROM_TODO" ,
-             id
-        })
+            dispatch(deleteTodo(id))
     }
  const handleDone = (id) =>{
-    dispatch({
-        type: "COMPLETE_ITEM",
-        id
-    })
-
- }
+    dispatch(completeItem(id))
+}
 
  const handleChange = (e) => {
      setTodo(e.target.value)
